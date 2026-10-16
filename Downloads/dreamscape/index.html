@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1022" />
+    <meta name="description" content="DreamScape — an interactive dream installation." />
+    <title>DreamScape — You are still dreaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d1022'/%3E%3Cpath d='M44 12a22 22 0 1 0 0 40 18 18 0 1 1 0-40Z' fill='%238580a7'/%3E%3Ccircle cx='33' cy='32' r='3' fill='%23f8edcf'/%3E%3C/svg%3E" />
+  </head>
+  <body data-scene="room" class="not-entered">
+    <div class="noise-layer" aria-hidden="true"></div>
+    <div class="scanline-layer" aria-hidden="true"></div>
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <canvas id="reactiveCanvas" class="reactive-canvas" aria-hidden="true"></canvas>
+
+    <div class="cursor-halo" aria-hidden="true"></div>
+    <div class="cursor-core" aria-hidden="true"><span></span></div>
+    <div class="cursor-label" aria-hidden="true">LOOK</div>
+
+    <main id="dreamscape" aria-label="DreamScape interactive dream installation">
+      <div class="scene-stage">
+        <div class="aurora aurora-one" aria-hidden="true"></div>
+        <div class="aurora aurora-two" aria-hidden="true"></div>
+        <div class="scene-vignette" aria-hidden="true"></div>
+
+        <!-- DREAM 01 / THE ROOM -->
+        <section class="scene scene-room is-active" data-scene="room" aria-label="Dream 01 — The Room">
+          <div class="room-wall" aria-hidden="true"></div>
+          <div class="room-floor" aria-hidden="true"></div>
+          <div class="window-frame" aria-hidden="true">
+            <div class="window-sky"><span class="star star-a"></span><span class="star star-b"></span><span class="star star-c"></span></div>
+            <button class="object moon-object symbol-target parallax" data-action="symbol" data-symbol="moon" data-cursor="FOLLOW" aria-label="A crescent moon, touch to remember it"><span class="moon-crescent"></span><span class="moon-glint">☾</span></button>
+          </div>
+          <div class="wall-shadow shadow-one" aria-hidden="true"></div>
+          <div class="wall-shadow shadow-two" aria-hidden="true"></div>
+
+          <div class="room-copy parallax" data-depth="0.15">
+            <p class="scene-kicker">DREAM 01 / 04 <span class="red-dot"></span> THE ROOM</p>
+            <p class="scene-whisper">The room remembers the shape of your attention.</p>
+            <h1 class="scene-title">ARE<br /><em>YOU AWAKE?</em></h1>
+          </div>
+
+          <div class="bed" aria-hidden="true">
+            <div class="bed-head"></div><div class="bed-mattress"></div><div class="bed-blanket"></div><div class="bed-pillow"></div><div class="bed-leg bed-leg-a"></div><div class="bed-leg bed-leg-b"></div>
+          </div>
+
+          <button class="object tv-object parallax" data-action="tv" data-cursor="TOUCH" aria-label="Old television, change channel">
+            <span class="tv-antenna"></span><span class="tv-body"><span class="tv-screen"><span id="tvChannel">STATIC</span></span><span class="tv-knob"></span><span class="tv-speaker"></span></span><span class="tv-feet"></span>
+          </button>
+          <button class="object telephone-object parallax" data-action="telephone" data-cursor="RING" aria-label="Telephone, pick it up"><span class="phone-body"></span><span class="phone-dial"></span><span class="phone-cord"></span></button>
+          <button class="object clock-object parallax" data-action="clock" data-cursor="TURN" aria-label="Wrong clock, alter the time"><span class="clock-face"><span class="clock-mark mark-12"></span><span class="clock-mark mark-3"></span><span class="clock-mark mark-6"></span><span class="clock-mark mark-9"></span><span class="clock-hand hand-hour"></span><span class="clock-hand hand-minute"></span><span class="clock-pin"></span></span></button>
+          <button class="object door-object parallax" data-action="door" data-cursor="OPEN" aria-label="Door to another dream"><span class="door-light"></span><span class="door-slab"><span class="door-knob"></span><span class="door-eyelet">◌</span></span></button>
+          <button class="object mirror-object parallax" data-action="mirror" data-cursor="LOOK" aria-label="Mirror, look closer"><span class="mirror-glass"><span class="mirror-copy">LOOK<br />CLOSER</span><span class="mirror-eye">◒</span></span><span class="mirror-frame"></span></button>
+          <button class="object chair-object parallax" data-action="chair" data-cursor="SIT" aria-label="An empty chair"><span class="chair-back"></span><span class="chair-seat"></span><span class="chair-stem"></span><span class="chair-foot"></span></button>
+          <button class="object red-balloon-object parallax" data-action="balloon" data-cursor="FOLLOW" aria-label="Red balloon"><span class="balloon-shape"></span><span class="balloon-string"></span></button>
+          <button class="object photograph-object parallax" data-action="photograph" data-cursor="LOOK" aria-label="A photograph containing something that does not exist here"><span class="photo-frame"><span class="photo-image"><i></i><b></b></span><span class="photo-caption">NOT THIS ROOM</span></span></button>
+          <div class="object key-object inert-object parallax" aria-hidden="true"><span class="key-ring"></span><span class="key-shaft"></span><span class="key-teeth"></span></div>
+          <span class="floating-book parallax" aria-hidden="true">⌁<br />⌁</span>
+          <span class="tiny-house parallax" aria-hidden="true">⌂</span>
+          <span class="flower-object parallax" aria-hidden="true">✿</span>
+        </section>
+
+        <!-- DREAM 02 / THE OCEAN -->
+        <section class="scene scene-ocean" data-scene="ocean" aria-label="Dream 02 — The Ocean">
+          <div class="ocean-rays" aria-hidden="true"></div><div class="ocean-horizon" aria-hidden="true"></div>
+          <div class="ocean-copy parallax" data-depth="0.2">
+            <p class="scene-kicker">DREAM 02 / 04 <span class="red-dot"></span> THE OCEAN</p>
+            <p class="scene-whisper">The furniture has learned how to breathe.</p>
+            <h2 class="scene-title ocean-title">SINK<br /><em>SOFTLY</em></h2>
+          </div>
+          <div class="waterline" aria-hidden="true"></div>
+          <div class="fish-school parallax" data-depth="0.32" aria-hidden="true"><span>◀≋</span><span>◀≋</span><span>◀≋</span></div>
+          <button class="object ocean-fish fish-one parallax" data-action="fish" data-cursor="FOLLOW" aria-label="A passing fish">◁≋</button>
+          <button class="object ocean-fish fish-two parallax" data-action="fish" data-cursor="FOLLOW" aria-label="A passing fish">◁≋</button>
+          <div class="ocean-table parallax" aria-hidden="true"><span class="table-top"></span><span class="table-leg leg-a"></span><span class="table-leg leg-b"></span><span class="table-leg leg-c"></span></div>
+          <div class="ocean-lamp parallax" aria-hidden="true"><span class="lamp-shade"></span><span class="lamp-stem"></span><span class="lamp-glow"></span></div>
+          <div class="bubble bubble-a" aria-hidden="true"></div><div class="bubble bubble-b" aria-hidden="true"></div><div class="bubble bubble-c" aria-hidden="true"></div>
+          <button class="object ocean-eye symbol-target parallax" data-action="symbol" data-symbol="eye" data-cursor="LOOK" aria-label="An eye drifting underwater"><span class="eye-outer"><span class="eye-iris"></span></span></button>
+          <button class="object ocean-photo parallax" data-action="photograph" data-cursor="LOOK" aria-label="A photograph drifting underwater"><span class="photo-frame"><span class="photo-image"><i></i><b></b></span></span></button>
+          <button class="object ocean-door" data-action="door" data-cursor="OPEN" aria-label="A door rising through the water"><span class="door-light"></span><span class="door-slab"><span class="door-knob"></span><span class="door-eyelet">▥</span></span></button>
+          <div class="underwater-tv" aria-hidden="true"><span>NO SIGNAL</span></div><div class="underwater-clock" aria-hidden="true">13:13</div>
+          <span class="ocean-letter letter-a parallax" aria-hidden="true">THIS PLACE</span><span class="ocean-letter letter-b parallax" aria-hidden="true">REMEMBERS YOU</span>
+        </section>
+
+        <!-- DREAM 03 / THE HALLWAY -->
+        <section class="scene scene-hallway" data-scene="hallway" aria-label="Dream 03 — The Hallway">
+          <div class="hallway-tunnel" aria-hidden="true"><span class="hall-frame frame-one"></span><span class="hall-frame frame-two"></span><span class="hall-frame frame-three"></span><span class="hall-frame frame-four"></span></div>
+          <div class="hall-lights" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="hall-copy parallax" data-depth="0.12">
+            <p class="scene-kicker">DREAM 03 / 04 <span class="red-dot"></span> THE HALLWAY</p>
+            <p class="scene-whisper">Do not count the doors. They count you.</p>
+            <h2 class="scene-title hallway-title">KEEP<br /><em>WALKING</em></h2>
+          </div>
+          <div class="hall-wall-text wall-text-a" aria-hidden="true">YOU ARE ALMOST<br />WHERE YOU BEGAN</div>
+          <div class="hall-wall-text wall-text-b" aria-hidden="true">LEFT / LEFT / LEFT</div>
+          <button class="object hall-door hall-door-a" data-action="hallway-door" data-cursor="OPEN" aria-label="A hallway door">NOT THIS WAY</button>
+          <button class="object hall-door hall-door-b escape-door" data-action="escape-door" data-cursor="EXIT" aria-label="Escape door">EXIT</button>
+          <button class="object hall-door hall-door-c" data-action="hallway-door" data-cursor="OPEN" aria-label="A hallway door">YOU'VE BEEN HERE</button>
+          <button class="chaos-card-trigger" data-action="chaos-card" data-cursor="DECODE" aria-label="Open the encrypted Chaos Card">
+            <svg viewBox="0 0 150 96" role="img" aria-label="Procedural Chaos Card">
+              <rect class="chaos-card-bg" x="2" y="2" width="146" height="92" rx="3"></rect><path class="chaos-card-grid" d="M12 18h126M12 28h72M12 78h126M108 28v42M118 28v42M128 28v42"></path><text x="12" y="15">C3 // CHAOS CARD</text><text x="12" y="89">COLOR LOCK / 03</text><circle cx="119" cy="17" r="3"></circle><circle cx="129" cy="17" r="3"></circle>
+            </svg>
+          </button>
+          <div class="hall-shadow" aria-hidden="true"></div>
+          <button class="object hallway-eye symbol-target parallax" data-action="symbol" data-symbol="eye" data-cursor="LOOK" aria-label="An eye in the hallway"><span class="eye-outer"><span class="eye-iris"></span></span></button>
+        </section>
+
+        <!-- DREAM 04 / THE VOID -->
+        <section class="scene scene-void" data-scene="void" aria-label="Dream 04 — The Void">
+          <div class="void-glow" aria-hidden="true"></div>
+          <div class="void-copy">
+            <p class="scene-kicker">DREAM 04 / 04 <span class="red-dot"></span> THE VOID</p>
+            <h2 class="scene-title void-title">NOTHING<br /><em>IS EMPTY</em></h2>
+            <p class="void-microcopy">Listen for the thing that is not there.</p>
+          </div>
+          <button class="object void-chair" data-action="chair" data-cursor="SIT" aria-label="A chair in the void"><span class="chair-back"></span><span class="chair-seat"></span><span class="chair-stem"></span><span class="chair-foot"></span></button>
+          <button class="object void-photo" data-action="photograph" data-cursor="LOOK" aria-label="A photograph of you sitting in the chair"><span class="photo-frame"><span class="photo-image void-photo-image"><i></i><b></b></span><span class="photo-caption">YOU WERE HERE</span></span></button>
+          <button class="object void-door" data-action="final-door" data-cursor="OPEN" aria-label="The final door"><span class="door-light"></span><span class="door-slab"><span class="door-knob"></span><span class="door-eyelet">◌</span></span></button>
+          <div class="void-mark void-mark-a" aria-hidden="true">·</div><div class="void-mark void-mark-b" aria-hidden="true">·</div><div class="void-mark void-mark-c" aria-hidden="true">·</div>
+        </section>
+
+        <!-- SECRET DREAM -->
+        <section class="scene scene-secret" data-scene="secret" aria-label="Secret Dream — The Remembering">
+          <div class="secret-ring" aria-hidden="true"></div><div class="secret-eye" aria-hidden="true">◒</div>
+          <div class="secret-copy">
+            <p class="scene-kicker">UNLISTED DREAM <span class="red-dot"></span> THE REMEMBERING</p>
+            <h2 class="scene-title secret-title">YOU<br /><em>FOUND ME</em></h2>
+            <p class="secret-message">The key was never for the door.<br />It was for the part of you that stayed.</p>
+          </div>
+          <button class="object secret-key" data-action="return-room" data-cursor="WAKE" aria-label="Return to the room"><span>↟</span></button>
+        </section>
+
+        <div class="landing-copy" id="landingCopy">
+          <p class="landing-overline"><span class="red-dot"></span> A BROWSER DREAM INSTALLATION</p>
+          <h1 class="wordmark" aria-label="DreamScape"><span>D</span><span>R</span><span>E</span><span>A</span><span>M</span><span>S</span><span>C</span><span>A</span><span>P</span><span>E</span></h1>
+          <p class="landing-subtitle" id="landingSubtitle">You were not supposed to find this place.</p>
+          <p class="landing-look">Look around.</p>
+          <button id="enterDream" class="enter-dream" data-action="enter" data-cursor="ENTER"><span class="enter-symbol">↘</span><span>Enter the dream</span></button>
+          <p class="landing-footnote">use your cursor / touch the objects / look closer</p>
+          <button class="loop-key" id="loopKey" hidden data-action="restart-ending" data-cursor="AGAIN" aria-label="Restart the dream">🔑</button>
+        </div>
+      </div>
+    </main>
+
+    <header class="top-interface" aria-label="DreamScape status">
+      <button class="mini-wordmark" data-action="restart" data-cursor="RESET" aria-label="Restart current dream">DREAM<span>SCAPE</span></button>
+      <p id="sceneCounter">DREAM 01 / 04</p>
+    </header>
+
+    <div class="right-interface" aria-live="polite">
+      <span class="status-line"><span class="status-dot"></span><span id="statusText">SIGNAL FOUND</span></span>
+      <button id="journalToggle" class="journal-toggle" data-action="journal" data-cursor="READ" aria-label="Open dream journal">☰ <span>FIELD NOTES</span></button>
+    </div>
+
+    <aside class="dream-journal" id="dreamJournal" aria-hidden="true" aria-label="Dream field notes">
+      <div class="journal-top"><span>FIELD NOTES / 00—04</span><button data-action="journal-close" aria-label="Close field notes">×</button></div>
+      <p class="journal-title">Things the dream<br /><em>does not say aloud.</em></p>
+      <div class="journal-entry"><span>01</span><p>The room has a pulse. Do not confuse it with yours.</p></div>
+      <div class="journal-entry"><span>02</span><p>There is a door in every version of the story.</p></div>
+      <div class="journal-entry"><span>03</span><p>The symbols are not clues. They are invitations.</p></div>
+      <div class="journal-entry entry-dash"><span>04</span><p id="journalSecret">— — — — — — —</p></div>
+      <div class="journal-bottom">last recorded: <span id="journalScene">THE ROOM</span></div>
+    </aside>
+
+    <div class="bottom-interface">
+      <div class="audio-control">
+        <button id="soundToggle" data-action="sound-toggle" data-cursor="LISTEN" aria-pressed="false"><span class="sound-bars"><i></i><i></i><i></i></span><span id="soundLabel">SOUND OFF</span></button>
+        <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.36" aria-label="Sound volume" />
+      </div>
+      <div class="journey-dock" aria-label="Dream navigation">
+        <button class="journey-dot is-active" data-scene-target="room" data-action="scene" data-cursor="ROOM" aria-label="Dream 1 — The Room"><span>01</span></button>
+        <button class="journey-dot" data-scene-target="ocean" data-action="scene" data-cursor="OCEAN" aria-label="Dream 2 — The Ocean"><span>02</span></button>
+        <button class="journey-dot" data-scene-target="hallway" data-action="scene" data-cursor="HALL" aria-label="Dream 3 — The Hallway"><span>03</span></button>
+        <button class="journey-dot" data-scene-target="void" data-action="scene" data-cursor="VOID" aria-label="Dream 4 — The Void"><span>04</span></button>
+        <button class="journey-dot secret-dot" id="secretDot" hidden data-scene-target="secret" data-action="scene" data-cursor="SECRET" aria-label="Secret dream — The Remembering"><span>∞</span></button>
+      </div>
+      <button class="scroll-cue" data-action="scroll-cue" data-cursor="DRIFT"><span>SCROLL TO DRIFT</span><span class="scroll-arrow">↓</span></button>
+    </div>
+
+    <div class="whisper" id="whisper" role="status" aria-live="polite"><span class="whisper-mark">✳</span><span id="whisperText"></span></div>
+    <div class="transition-cover" aria-hidden="true"><span id="transitionGlyph">◌</span></div>
+    <div class="velocity-warning" id="velocityWarning" aria-live="assertive" aria-hidden="true"><strong id="velocityMessage">SOMETHING IS WRONG.</strong><span>DREAM INSTABILITY: <b id="instabilityValue">0%</b></span></div>
+    <section class="chaos-card-layer" id="chaosCardLayer" aria-hidden="true" aria-label="Chaos Card color lock" role="dialog" aria-modal="true">
+      <div class="chaos-card-panel">
+        <div class="chaos-card-heading"><span>C3 // COLOR LOCK PUZZLE</span><button class="chaos-close-button" data-action="chaos-close" data-cursor="CLOSE" aria-label="Close Chaos Card">CLOSE <b>×</b></button></div>
+        <svg class="chaos-card-large" viewBox="0 0 560 360" role="img" aria-label="Procedural SVG Chaos Card">
+          <defs><linearGradient id="chaosGradient" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#111326"></stop><stop offset=".55" stop-color="#303354"></stop><stop offset="1" stop-color="#7997ac"></stop></linearGradient><pattern id="chaosLines" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0 14L14 0" stroke="#f6efd9" stroke-opacity=".08"></path></pattern></defs>
+          <rect x="8" y="8" width="544" height="344" rx="6" fill="url(#chaosGradient)"></rect><rect x="8" y="8" width="544" height="344" rx="6" fill="url(#chaosLines)"></rect><path class="chaos-card-border" d="M28 62H532M28 310H532M28 62V310M532 62V310"></path><text class="chaos-card-title" x="30" y="42">CHAOS CARD // C3</text><text class="chaos-card-copy" x="30" y="88">PUZZLE // MATCH THE TARGET COLORS IN ORDER.</text><text class="chaos-card-copy" x="30" y="106">TAP A LOWER SIGNAL TO CYCLE ITS COLOR.</text><text class="chaos-card-label" x="30" y="132">1 / TARGET</text><g class="chaos-target-group"><rect class="chaos-target" data-chaos-index="0" x="58" y="142" width="94" height="26" rx="3"></rect><rect class="chaos-target" data-chaos-index="1" x="233" y="142" width="94" height="26" rx="3"></rect><rect class="chaos-target" data-chaos-index="2" x="408" y="142" width="94" height="26" rx="3"></rect></g><text class="chaos-card-label" x="30" y="192">2 / YOUR SIGNAL</text><g class="chaos-lock-group"><rect class="chaos-lock" data-chaos-index="0" x="58" y="202" width="94" height="54" rx="4"></rect><rect class="chaos-lock" data-chaos-index="1" x="233" y="202" width="94" height="54" rx="4"></rect><rect class="chaos-lock" data-chaos-index="2" x="408" y="202" width="94" height="54" rx="4"></rect><text x="76" y="280">A / TAP</text><text x="251" y="280">B / TAP</text><text x="426" y="280">C / TAP</text></g><text id="chaosCardCode" class="chaos-card-code" x="30" y="330">HASH // WAITING</text>
+        </svg>
+        <div class="chaos-card-status"><strong id="chaosCardStatus">MATCH 0 / 3</strong><span>Match the top row. The exit opens when all three agree.</span></div>
+        <button class="chaos-close-cta" data-action="chaos-close" data-cursor="BACK">Close card and return to the Hallway</button>
+      </div>
+    </section>
+    <section class="physics-layer" id="physicsLayer" aria-label="Dream collapse gravity mode" aria-hidden="true">
+      <canvas id="physicsCanvas"></canvas>
+      <div class="physics-copy"><p class="scene-kicker">TRACK ALPHA / COLLAPSE</p><h2>YOU BROKE<br /><em>THE DREAM.</em></h2><p>NOW CONTROL WHAT REMAINS.</p></div>
+      <div class="physics-hint">move to bend gravity <span>·</span> drag what remains <span>·</span> find the key</div>
+      <div class="gravity-readout">GRAVITY <strong id="gravityReadout">DOWN</strong></div>
+    </section>
+    <section class="ending-overlay" id="endingOverlay" aria-hidden="true">
+      <p class="scene-kicker">SIGNAL LOST / SIGNAL FOUND</p><h2>YOU ESCAPED.<br /><em>DIDN'T YOU?</em></h2><p>“You already have.”</p><button id="endingKey" data-action="restart-ending" data-cursor="AGAIN" aria-label="Restart the dream"><span>🔑</span></button>
+    </section>
+
+    <script src="/particles.js"></script>
+    <script src="/physics.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
